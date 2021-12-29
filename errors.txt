@@ -1,0 +1,9 @@
+==========date 27-Dec-2021============
+1---Notice: Undefined Variable: Msg In C:\Xampp\Htdocs\Yt_ecommerce\Admin\Login.Php On Line 99
+    the Variable $msg on line 99 is getting executed and as there is no info...that ehy it is 
+    showing error
+
+    problem solved--
+    i didn't this msg variable blank here so i was getting error whenever i open it as 
+    ther was nothing to show in msg as now it is blank ..problem is solved
+======================================

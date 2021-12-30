@@ -1,5 +1,34 @@
 <?php
-include('top_inc.php')
+include('top_inc.php');
+$sql = "SELECT * FROM CATEGORIES ORDER BY id asc  ";
+$res = mysqli_query($con, $sql);
+//PHP $_GET is a PHP super global variable which is used to collect form data after
+// submitting an HTML form with method="get".
+
+//$_GET can also collect data sent in the URL.
+
+
+//imp! this script will help bkc.com in adding and removing the book from like dislike 
+//save etc the logic behind these will look same as it is
+if(isset($_GET['type'])&&$_GET['type']!='')
+{
+    $type=get_safe_value($con,$_GET['type']);
+    if($type='status')
+    { 
+        $operation=get_safe_value($con,$_GET['operation']);
+        $id=get_safe_value($con,$_GET['id']);
+        if($operation=='active')
+        {echo  '$status' ;
+            $status='1';
+        }
+        else{
+            $status='0';
+        }
+        $udate_status="UPDATE CATEGORIES SET STATUS='$status' WHERE id='$id' ";
+        mysqli_query($con,$udate_status);
+
+    }
+}
 ?>
 <div class="content pb-0">
     <div class="orders">
@@ -15,90 +44,37 @@ include('top_inc.php')
                                 <thead>
                                     <tr>
                                         <th class="serial">#</th>
-                                        <th class="avatar">Avatar</th>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
+                                        <th>Category</th>
                                         <th>Status</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="serial">1.</td>
-                                        <td class="avatar">
-                                            <div class="round-img">
-                                                <a href="#"><img class="rounded-circle" src="images/avatar/1.jpg" alt=""></a>
-                                            </div>
-                                        </td>
-                                        <td> #5469 </td>
-                                        <td> <span class="name">Louis Stanley</span> </td>
-                                        <td> <span class="product">iMax</span> </td>
-                                        <td><span class="count">231</span></td>
-                                        <td>
-                                            <span class="badge badge-complete">Complete</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="serial">2.</td>
-                                        <td class="avatar">
-                                            <div class="round-img">
-                                                <a href="#"><img class="rounded-circle" src="images/avatar/2.jpg" alt=""></a>
-                                            </div>
-                                        </td>
-                                        <td> #5468 </td>
-                                        <td> <span class="name">Gregory Dixon</span> </td>
-                                        <td> <span class="product">iPad</span> </td>
-                                        <td><span class="count">250</span></td>
-                                        <td>
-                                            <span class="badge badge-complete">Complete</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="serial">3.</td>
-                                        <td class="avatar">
-                                            <div class="round-img">
-                                                <a href="#"><img class="rounded-circle" src="images/avatar/3.jpg" alt=""></a>
-                                            </div>
-                                        </td>
-                                        <td> #5467 </td>
-                                        <td> <span class="name">Catherine Dixon</span> </td>
-                                        <td> <span class="product">SSD</span> </td>
-                                        <td><span class="count">250</span></td>
-                                        <td>
-                                            <span class="badge badge-complete">Complete</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="serial">4.</td>
-                                        <td class="avatar">
-                                            <div class="round-img">
-                                                <a href="#"><img class="rounded-circle" src="images/avatar/4.jpg" alt=""></a>
-                                            </div>
-                                        </td>
-                                        <td> #5466 </td>
-                                        <td> <span class="name">Mary Silva</span> </td>
-                                        <td> <span class="product">Magic Mouse</span> </td>
-                                        <td><span class="count">250</span></td>
-                                        <td>
-                                            <span class="badge badge-pending">Pending</span>
-                                        </td>
-                                    </tr>
-                                    <tr class=" pb-0">
-                                        <td class="serial">5.</td>
-                                        <td class="avatar pb-0">
-                                            <div class="round-img">
-                                                <a href="#"><img class="rounded-circle" src="images/avatar/6.jpg" alt=""></a>
-                                            </div>
-                                        </td>
-                                        <td> #5465 </td>
-                                        <td> <span class="name">Johnny Stephens</span> </td>
-                                        <td> <span class="product">Monitor</span> </td>
-                                        <td><span class="count">250</span></td>
-                                        <td>
-                                            <span class="badge badge-complete">Complete</span>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $i = 1;
+                                    while ($row = mysqli_fetch_assoc($res)) { ?>
+                                        <tr>
+                                            <td class="serial"><?php echo $i++ ?></td>
+
+                                            <td> <?php echo $row['id'] ?> </td>
+                                            <td> <?php echo $row['categories'] ?> </td>
+                                            <td> <?php $row['status'] ?>
+
+                                                <?php
+                                                if ($row['status'] == 1) {
+                                                    //this how we are going to toggle the status in the database
+                                                    echo "<a href='?type=status&operation=deactive&id=" . $row['id'] . "'>Active</a>";
+                                                } else {
+                                                    echo "<a href='?type=status&operation=active&id=" . $row['id'] . "'> Deactive</a>";
+                                                } ?>
+                                            </td>
+                                        </tr>
+
+
+
+
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -108,5 +84,5 @@ include('top_inc.php')
         </div>
     </div>
 </div><?php
-include('footer_inc.php')
-?>
+        include('footer_inc.php')
+        ?>

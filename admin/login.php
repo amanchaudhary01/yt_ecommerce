@@ -35,7 +35,7 @@ if (isset($_POST['submit'])) {
 
         //these session is used at top_inc.php such that any now cannot goto cagtegories with 
         //just url http://localhost/yt_ecommerce/admin/categories.php  it will redirect to login page
-        $_SESSION['ADMIN_LOGIN']='yes';
+        $_SESSION['ADMIN_LOGIN']="yes";
         $_SESSION['ADMIN_USERNAME']=$username;
         header('location:categories.php');
         //The die() is an inbuilt function in PHP. It is used to print message

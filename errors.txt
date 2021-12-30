@@ -6,4 +6,17 @@
     problem solved--
     i didn't this msg variable blank here so i was getting error whenever i open it as 
     ther was nothing to show in msg as now it is blank ..problem is solved
+==========date 28-Dec-2021============
+2----i did not had written session_start() in the connection_inc.php
+    thats why the condition
+    === if (isset($_SESSION['ADMIN_LOGIN']) && ($_SESSION['ADMIN_LOGIN']!='')) {
+
+    } else {
+   header("location:login.php");
+   echo 'hello1';
+   die();
+    }====
+
+    was gettin the else loop and page was redirected to the login.php
+3--- the active and deactive is not instantly getting udated
 ======================================

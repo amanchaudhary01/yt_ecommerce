@@ -20,25 +20,28 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
         } else {
             $status = '0';
         }
-        $udate_status_sql = "UPDATE CATEGORIES SET STATUS='$status' WHERE id='$id' ";
+        $udate_status_sql = "UPDATE product SET STATUS='$status' WHERE id='$id' ";
         mysqli_query($con, $udate_status_sql);
     }
 
     if ($type == 'delete') {
         $id = get_safe_value($con, $_GET['id']);
-        $delete_sql = "DELETE FROM CATEGORIES  WHERE id='$id' ";
+        $delete_sql = "DELETE FROM product  WHERE id='$id' ";
         mysqli_query($con, $delete_sql);
     }
 }
+$sql = "SELECT * FROM product ORDER BY ID DESC";
+$res = mysqli_query($con, $sql);
 ?>
+
 <div class="content pb-0">
     <div class="orders">
         <div class="row">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="catg_title">Categories </h4>
-                        <div class="add_catg_btn btn btn-primary "><a href="manage_category.php">Add category</a> </div>
+                        <h4 class="catg_title">Product </h4>
+                        <div class="add_btn btn btn-primary "><a class="add_btn_a" href="manage_product.php">Add Product</a> </div>
                     </div>
                     <div class="card-body--">
                         <div class="table-stats order-table ov-h">
@@ -46,11 +49,15 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
                                 <thead>
                                     <tr>
                                         <th class="serial">#</th>
+                                        <th>Image</th>
                                         <th>ID</th>
-                                        <th>Category</th>
-                                        <th>Status</th>
-                                        <th>Delete</th>
-                                        <th>Edit</th>
+                                        <th>Categories</th>
+                                        <th>Name</th>
+
+                                        <th>MRP</th>
+                                        <th>Price</th>
+                                        <th>Qty</th>
+                                        <th></th>
 
                                     </tr>
                                 </thead>
@@ -60,11 +67,15 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
                                     while ($row = mysqli_fetch_assoc($res)) { ?>
                                         <tr class="tabel_row">
                                             <td class="serial"><?php echo $i++ ?></td>
-
+                                            <td> <?php echo $row['image'] ?></td>
                                             <td> <?php echo $row['id'] ?> </td>
-                                            <td> <?php echo $row['categories'] ?> </td>
-                                            <td> <?php $row['status'] ?>
+                                            <td> <?php echo $row['categories_id'] ?> </td>  
+                                            <td> <?php echo $row['name'] ?></td>
 
+                                            <td> <?php echo $row['mrp'] ?></td>
+                                            <td> <?php echo $row['price'] ?></td>
+                                            <td> <?php echo $row['qty'] ?> </td>
+                                            <td>
                                                 <?php
                                                 if ($row['status'] == 1) {
                                                     //this how we are going to toggle the status in the database
@@ -77,14 +88,13 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
                                                 }
 
                                                 ?>
-                                            </td>
-                                            <td> 
+
+
                                                 <?php
                                                 echo "<div class='curd_btn_main badge  badge-danger'><a class='delete_btn curd_btn' href='?type=delete&id=" . $row['id'] . "'>Delete</a>&nbsp;</div>";
                                                 ?>
 
-                                            </td>
-                                            <td>
+
                                                 <?php
                                                 echo "<div class='curd_btn_main badge  badge-warning'><a class='edit_btn ' href='manage_category.php?type=edit&id=" . $row['id'] . "'>Edit</a>&nbsp;</div>";
                                                 ?>

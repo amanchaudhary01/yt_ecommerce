@@ -1,0 +1,85 @@
+<?php
+include('top_inc.php');
+$sql = "SELECT * FROM CATEGORIES ORDER BY id asc  ";
+$res = mysqli_query($con, $sql);
+//PHP $_GET is a PHP super global variable which is used to collect form data after
+// submitting an HTML form with method="get".
+
+//$_GET can also collect data sent in the URL.
+
+
+//imp! this script will help bkc.com in adding and removing the book from like dislike 
+//save etc the logic behind these will look same as it is
+if (isset($_GET['type']) && $_GET['type'] != '') {
+    $type = get_safe_value($con, $_GET['type']);
+
+    if ($type == 'delete') {
+        $id = get_safe_value($con, $_GET['id']);
+        $delete_sql = "DELETE FROM CONTACT_US  WHERE id='$id' ";
+        mysqli_query($con, $delete_sql);
+    }
+}
+$sql="SELECT * FROM CONTACT_US ORDER BY ID DESC";
+$res=mysqli_query($con,$sql);
+?>
+<div class="content pb-0">
+    <div class="orders">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="catg_title">Contact us </h4>
+                       
+                    </div>
+                    <div class="card-body--">
+                        <div class="table-stats order-table ov-h">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th class="serial">#</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        <th>Comment</th>
+                                        <th>Date</th>
+                                        <th></th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    while ($row = mysqli_fetch_assoc($res)) { ?>
+                                        <tr class="tabel_row">
+                                            <td class="serial"><?php echo $i++ ?></td>
+                                            <td><?php echo $row['id'] ?></td>
+                                            <td><?php echo $row['name'] ?></td>
+                                            <td><?php echo $row['email'] ?></td>
+                                            <td><?php echo $row['mobile'] ?></td>
+                                            <td><?php echo $row['comment'] ?></td>
+                                            <td><?php echo $row['added_on'] ?></td>
+                                            <td>
+                                                <?php
+                                                echo "<div class='curd_btn_main badge  badge-warning'><a class='delete_btn ' href='manage_category.php?type=delete&id=" . $row['id'] . "'>Delete</a>&nbsp;</div>";
+                                                ?>
+                                            </td>
+                                        </tr>
+
+
+
+
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><?php
+        include('footer_inc.php')
+        ?>

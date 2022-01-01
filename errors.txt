@@ -20,3 +20,6 @@
     was gettin the else loop and page was redirected to the login.php
 3--- the active and deactive is not instantly getting udated
 ======================================
+
+==========date 30-Dec-2021============
+4----The active and deactive button are not updating instantly

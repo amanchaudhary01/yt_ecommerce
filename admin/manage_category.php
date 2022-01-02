@@ -2,6 +2,7 @@
 require('top_inc.php');
 $categories = '';
 $msg = '';
+//this script is for such if a person change the id from the url and that id does not exist than it should redirect to the it manage page
 if (isset($_GET['id']) && $_GET['id'] != '') {
     $id = get_safe_value($con, $_GET['id']);
     $res = mysqli_query($con, "SELECT * FROM CATEGORIES WHERE id='$id'");
@@ -26,23 +27,18 @@ if (isset($_POST['submit'])) {
         //this condition is for such that if the admin  press edit and then submit eith same dat for the 
         //same id than it will not show error 
         if (isset($_GET['id']) && $_GET['id'] != '') {
-                $getdata=mysqli_fetch_assoc($res);
-                if($id==$getdata['id'])
-                {
-
-                }
-                else{
-                    $msg = 'Category already exist!!!';
-                }
-
+            $getdata = mysqli_fetch_assoc($res);
+            //if user click on edit and does not edit that product name than afer submiting
+            // their will be no error other wise it will give an error
+            if ($id == $getdata['id']) {
+            } else {
+                $msg = 'Category already exist!!!';
+            }
+        } else {
+            $msg = 'Category already exist!!!';
         }
-        else{
-             $msg = 'Category already exist!!!';
-        }
-       
-    } 
-    if($msg=='')
-    {
+    }
+    if ($msg == '') {
         if (isset($_GET['id']) && $_GET['id'] != '') {
             $sql = "UPDATE categories SET categories='$categories' WHERE id='$id'  ";
         } else {

@@ -30,7 +30,7 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
         mysqli_query($con, $delete_sql);
     }
 }
-$sql = "SELECT * FROM product ORDER BY ID DESC";
+$sql = "SELECT  product.*,categories.categories from product,categories where product.categories_id=categories.id ORDER BY product.id DESC";
 $res = mysqli_query($con, $sql);
 ?>
 
@@ -69,7 +69,7 @@ $res = mysqli_query($con, $sql);
                                             <td class="serial"><?php echo $i++ ?></td>
                                             <td> <?php echo $row['image'] ?></td>
                                             <td> <?php echo $row['id'] ?> </td>
-                                            <td> <?php echo $row['categories_id'] ?> </td>  
+                                            <td> <?php echo $row['categories'] ?> </td>  
                                             <td> <?php echo $row['name'] ?></td>
 
                                             <td> <?php echo $row['mrp'] ?></td>
@@ -96,7 +96,7 @@ $res = mysqli_query($con, $sql);
 
 
                                                 <?php
-                                                echo "<div class='curd_btn_main badge  badge-warning'><a class='edit_btn ' href='manage_category.php?type=edit&id=" . $row['id'] . "'>Edit</a>&nbsp;</div>";
+                                                echo "<div class='curd_btn_main badge  badge-warning'><a class='edit_btn ' href='manage_product.php?type=edit&id=" . $row['id'] . "'>Edit</a>&nbsp;</div>";
                                                 ?>
 
                                             </td>

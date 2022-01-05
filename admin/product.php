@@ -67,7 +67,8 @@ $res = mysqli_query($con, $sql);
                                     while ($row = mysqli_fetch_assoc($res)) { ?>
                                         <tr class="tabel_row">
                                             <td class="serial"><?php echo $i++ ?></td>
-                                            <td> <?php echo $row['image'] ?></td>
+                                            <!-- //this  PRODUCT_SITE_SERVER_PATH is a defined path define in connection.php as we can make another filefor these purpose -->
+                                            <td> <img src="<?php echo PRODUCT_IMAGE_SITE_PATH.$row['image'] ?>" alt=""></td>
                                             <td> <?php echo $row['id'] ?> </td>
                                             <td> <?php echo $row['categories'] ?> </td>  
                                             <td> <?php echo $row['name'] ?></td>
@@ -83,7 +84,8 @@ $res = mysqli_query($con, $sql);
                                                     <a class='active_btn curd_btn' href='?type=status&operation=deactive&id=" . $row['id'] . "'>Active
                                                     </a>
                                                     </div>";
-                                                } else {
+                                                } 
+                                                else {
                                                     echo "<div class='curd_btn_main badge  badge-secondary'><a class='deactive_btn curd_btn' href='?type=status&operation=active&id=" . $row['id'] . "'> Deactive</a>&nbsp;</div>";
                                                 }
 

@@ -2,6 +2,7 @@
 
 require('connection_inc.php');
 require('function_inc.php');
+// prx($_SERVER); 
 
 if (isset($_SESSION['ADMIN_LOGIN']) && ($_SESSION['ADMIN_LOGIN']!='')) {
 

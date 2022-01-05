@@ -14,7 +14,8 @@ $meta_keyword = '';
 $status = '';
 
 $msg = '';
-
+//if the admin is  adding the product than it will not go in the edit fuction see near line 27 or fruther if it is in edit mode than$image_required will be blank...but in case to add it will echo required
+$image_required='required';
 //this script is for such if a person change the id from the url and that id does not exist than it should redirect to the it manage page
 if (isset($_GET['id']) && $_GET['id'] != '') {
     $id = get_safe_value($con, $_GET['id']);
@@ -23,7 +24,9 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
     // if the num will be greater than 0 then only the data will change 1:07:18 lec-1()progeming with vishal
     $check = mysqli_num_rows($res);
     if ($check > 0) {
+        $image_required='';
         $row = mysqli_fetch_assoc($res);
+        $categories_id=$row['categories_id'];   
         $name = $row['name'];
         $mrp = $row['mrp'];
         $price = $row['price'];
@@ -73,18 +76,37 @@ if (isset($_POST['submit'])) {
             $msg = 'product already exist!!!';
         }
     }
+    if($_FILES['image']['type']!='image/png' && $_FILES['image']['type']!='image/jpg'&& $_FILES['image']['type']!='image/jpeg' )
+    {
+
+    $msg='please uplaoad a jpg,png or a jpeg file';
+
+    }
+    // prx($_FILES);
+
     if ($msg == '') {
 
         if (isset($_GET['id']) && $_GET['id'] != '') {
+
+            $image=rand(1111111,9999999).'_'.$_FILES['image']['name'];
+            //inbuilt_function
+            //this  PRODUCT_IMAGE_SERVER_PATH is a defined path define in connection.php as we can make another filefor these purpose
+            //  move_uploaded_file($_FILES['image']['tmp_name'],'../media/product/'. $image); 
+            move_uploaded_file($_FILES['image']['tmp_name'],PRODUCT_IMAGE_SERVER_PATH.$image);
+
             $sql = "UPDATE product SET categories_id='$categories_id',name='$name',mrp='$mrp',price='$price',qty='$qty',image='$image',short_descp='$short_descp',
             descp='$descp',meta_title='$meta_title',meta_descp='$meta_descp',meta_descp='$meta_descp',status='$status' WHERE id='$id'  ";
         } else {
+            $image=rand(1111111,9999999).'_'.$_FILES['image']['name'];
+            //inbuilt_function
+            // move_uploaded_file($_FILES['image']['tmp_name'],'.. /media/product/'.$image);    
+            move_uploaded_file($_FILES['image']['tmp_name'],PRODUCT_IMAGE_SERVER_PATH.$image);
             $sql = "INSERT INTO product(categories_id,name,mrp,price,qty,image,short_descp,descp,meta_title,meta_descp,meta_keyword,status) values
             ('$categories_id','$name','$mrp','$price','$qty','$image','$short_descp','$descp','$meta_title','$meta_descp','$meta_keyword','1') ";
         }
 
         mysqli_query($con, $sql);
-        header('location:product.php');
+        // header('location:product.php');
     }
 }
 
@@ -97,6 +119,9 @@ if (isset($_POST['submit'])) {
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header"><strong>Product</strong><small> Form</small></div>
+                    <div class="edit_in_error">
+                                <?php echo $msg ?>
+                            </div>
                     <form action="" method="POST" enctype="multipart/form-data">
                         <div class="card-body card-block">
                             <div class="form-group" >
@@ -104,9 +129,17 @@ if (isset($_POST['submit'])) {
                                 <select name="categories_id" id="" class=" form-control">
 
                                     <?php
-                                    $res = mysqli_query($con, "SELECT id,categories FROM categories ORDER BY categories desc");
+                                    //this is join operation
+                                    $res = mysqli_query($con, "SELECT id,categories FROM categories ORDER BY categories asc");
                                     while ($row = mysqli_fetch_assoc($res)) {
-                                        echo " <option value=" . $row['id'] . ">" . $row['categories'] . "</option> ";
+                                        if($row['id']==$categories_id){ 
+                                            echo " <option  selected value=" .$row['id'] . ">" . $row['categories'] . "</option> ";
+                                        }
+                                        else
+                                        {
+                                            echo " <option  value=" .$row['id'] . ">" . $row['categories'] . "</option> ";
+                                        }
+                                       
                                     };
 
                                     ?>
@@ -129,10 +162,10 @@ if (isset($_POST['submit'])) {
                                 <input type="text" id="qty" placeholder="Enter your product's quantity" class="form-control" name="qty" required value=<?php echo $qty ?>>
                             </div>
                             <div class="form-group">
-                                <label for="mrp" class=" form-control-label">Image</label>
-                                <input type="file" id="image" class="form-control" name="image" >
+                                <label for="mrp" class="form-control-label">Image</label>
+                                <input type="file" id="image" class="form-control" value=<?php echo $image ?><?php echo $image_required ?> name="image" >
                             </div>
-                            <div class="form-group">
+                            <div class="form-group">    
                                 <label for="mrp" class=" form-control-label">Short description</label>
                                 <input type="text" id="short_descp" placeholder="Enter Short description" class="form-control" name="short_descp" required value=<?php echo $short_descp ?>>
                             </div>

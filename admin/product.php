@@ -54,7 +54,7 @@ $res = mysqli_query($con, $sql);
                                         <th>Categories</th>
                                         <th>Name</th>
 
-                                        <th>MRP</th>
+                                        <th>MRP</th>    
                                         <th>Price</th>
                                         <th>Qty</th>
                                         <th></th>

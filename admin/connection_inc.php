@@ -2,6 +2,7 @@
 <?php
 session_start();    
 $con=mysqli_connect("localhost","root","","ecom");
+// paths is defined 
 define('SERVER_PATH',$_SERVER['DOCUMENT_ROOT'].'/yt_ecommerce/');
 define('SITE_PATH','http://localhost/yt_ecommerce/');
 

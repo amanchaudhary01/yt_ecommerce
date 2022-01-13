@@ -1,7 +1,6 @@
 <?php
 include('top_inc.php');
-// $sql = "SELECT * FROM CATEGORIES ORDER BY id asc  ";
-// $res = mysqli_query($con, $sql);
+
 //PHP $_GET is a PHP super global variable which is used to collect form data after
 // submitting an HTML form with method="get".
 
@@ -15,11 +14,11 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
 
     if ($type == 'delete') {
         $id = get_safe_value($con, $_GET['id']);
-        $delete_sql = "DELETE FROM CONTACT_US  WHERE id='$id' ";
+        $delete_sql = "DELETE FROM users  WHERE id='$id' ";
         mysqli_query($con, $delete_sql);
     }
 }
-$sql="SELECT * FROM CONTACT_US ORDER BY ID DESC";
+$sql="SELECT * FROM users ORDER BY ID DESC";
 $res=mysqli_query($con,$sql);
 ?>
 <div class="content pb-0">
@@ -28,7 +27,7 @@ $res=mysqli_query($con,$sql);
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="catg_title">Contact us </h4>
+                        <h4 class="catg_title">User </h4>
                        
                     </div>
                     <div class="card-body--">
@@ -41,9 +40,9 @@ $res=mysqli_query($con,$sql);
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Mobile</th>
-                                        <th>Comment</th>
                                         <th>Date</th>
                                         <th></th>
+                                     
 
 
 
@@ -59,7 +58,6 @@ $res=mysqli_query($con,$sql);
                                             <td><?php echo $row['name'] ?></td>
                                             <td><?php echo $row['email'] ?></td>
                                             <td><?php echo $row['mobile'] ?></td>
-                                            <td><?php echo $row['comment'] ?></td>
                                             <td><?php echo $row['added_on'] ?></td>
                                             <td>
                                                 <?php
@@ -80,6 +78,9 @@ $res=mysqli_query($con,$sql);
             </div>
         </div>
     </div>
-</div><?php
+</div>
+<?php
+
         include('footer_inc.php')
-        ?>
+
+?>

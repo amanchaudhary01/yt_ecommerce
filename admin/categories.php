@@ -20,9 +20,12 @@ if (isset($_GET['type']) && $_GET['type'] != '') {
         } else {
             $status = '0';
         }
+        
         $udate_status_sql = "UPDATE CATEGORIES SET STATUS='$status' WHERE id='$id' ";
         mysqli_query($con, $udate_status_sql);
     }
+
+    //this is for deletion of the categories
 
     if ($type == 'delete') {
         $id = get_safe_value($con, $_GET['id']);
